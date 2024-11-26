@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-my-app  # Ім'я для деплойменту, використовуючи ім'я релізу
+spec:
+  replicas: {{ .Values.replicaCount | default 1 }}  # Використовуємо значення з values.yaml для кількості реплік
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}  # Тег для вибору реплік
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}  # Тег для мітки контейнерів
+    spec:
+      containers:
+        - name: {{ .Release.Name }}  # Ім'я контейнера
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default "latest" }}"  # Використовуємо репозиторій і тег з values.yaml
+          ports:
+            - containerPort: 80  # Порт, на якому буде працювати контейнер

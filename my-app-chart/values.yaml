@@ -1,0 +1,24 @@
+ingress:
+  enabled: true
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  host: my-app.local
+
+
+
+image:
+  repository: c46ac32b8eef/my-app
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 80
+serviceAccount:
+  create: true
+  name: ""
+autoscaling:
+  enabled: true        # Включаємо автоскейлінг
+  minReplicas: 1       # Мінімальна кількість реплік
+  maxReplicas: 10      # Максимальна кількість реплік
+  targetCPUUtilizationPercentage: 80  # Цільова завантаженість процесора для масштабування
